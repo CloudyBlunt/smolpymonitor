@@ -27,7 +27,7 @@ def main():
             cpu_tab = "[                  ]"
         elif cpu < 15:
             cpu_tab = "[|                 ]"
-        elif cpu < 30:
+        elif cpu < 35:
             cpu_tab = "[|||||             ]"
         elif cpu < 50:
             cpu_tab = "[|||||||||         ]"
