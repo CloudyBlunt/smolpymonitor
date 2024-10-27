@@ -22,6 +22,8 @@ def main():
         freq_minimum = cpu_freqs.min
         freq_maximum = cpu_freqs.max
         cpu_usage_per_core = psutil.cpu_percent(interval=1, percpu=True)
+        temps = psutil.sensors_temperatures()
+
 
         if cpu < 5:
             cpu_tab = "[                  ]"
@@ -65,10 +67,16 @@ def main():
 
 
         os.system("clear")
-        print(f'CPU: {cpu}%\n{cpu_tab}')
+        print(f'    CPU: {cpu}%     \n    {cpu_tab}')
         print(f'    Current: {freq_current:.1f}MHz\n    Minimum: {freq_minimum:.2f}MHz \n    Maximum: {freq_maximum:.2f}MHz\n')
-        print(f'RAM: {ram_percent:.1f}% \n{ram_tab}\n    Used: {ram_used / 1024 / 1024 / 1024:.2f} GB \n    Available: {ram.available / 1024 / 1024 / 1024:.2f} GB \n    Total {ram.total / 1024 / 1024 / 1024:.4} GB')
-        print(f'\nSWAP: {swap_percent}% \n{swap_tab}\n    Used: {swap_used / 1024 / 1024 / 1024:.2f} GB \n    Available: {swap_free / 1024 / 1024 / 1024:.2f} GB \n    Total {swap_total / 1024 / 1024 / 1024:.4} GB')
+        print("              CPU TEMPS")
+        print("     ==========================")
+        for name, entries in temps.items():
+            for entry in entries:
+                print("    %-20s %s °C" % (entry.label or name, entry.current))
+        print(f'\n      RAM: {ram_percent:.1f}% \n    {ram_tab}\n    Used: {ram_used / 1024 / 1024 / 1024:.2f} GB \n    Available: {ram.available / 1024 / 1024 / 1024:.2f} GB \n    Total {ram.total / 1024 / 1024 / 1024:.4} GB')
+        print(f'\n      SWAP: {swap_percent}% \n    {swap_tab}\n    Used: {swap_used / 1024 / 1024 / 1024:.2f} GB \n    Available: {swap_free / 1024 / 1024 / 1024:.2f} GB \n    Total {swap_total / 1024 / 1024 / 1024:.4} GB')
+
         time.sleep(1)
 if __name__ == "__main__":
     main()
